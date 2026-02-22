@@ -1,15 +1,38 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function BookDetailPage() {
     const params = useParams();
+    const router = useRouter();
+    const { data: session } = useSession();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [deleting, setDeleting] = useState(false);
+
+    const handleDelete = async () => {
+        if (!confirm('Are you sure you want to permanently delete this book and all its indexed content?')) return;
+        setDeleting(true);
+        try {
+            const res = await fetch(`/api/books/${book.id}`, { method: 'DELETE' });
+            if (res.ok) {
+                router.push('/books');
+            } else {
+                const data = await res.json();
+                alert(data.error || 'Failed to delete book');
+                setDeleting(false);
+            }
+        } catch (e) {
+            console.error(e);
+            alert('An error occurred while deleting the book.');
+            setDeleting(false);
+        }
+    };
 
     useEffect(() => {
         fetch(`/api/books/${params.id}`)
@@ -76,9 +99,23 @@ export default function BookDetailPage() {
                                 <Link href={`/papers/generate?bookId=${book.id}`} className="btn btn-primary btn-lg" style={{ width: '100%', marginBottom: 'var(--space-3)', textAlign: 'center', display: 'block' }}>
                                     🚀 Generate Exam Paper from This Book
                                 </Link>
-                                <a href={book.storagePath} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ width: '100%', textAlign: 'center', display: 'block' }}>
+                                <a href={book.storagePath} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ width: '100%', textAlign: 'center', display: 'block', marginBottom: 'var(--space-3)' }}>
                                     📄 View / Download PDF
                                 </a>
+
+                                {session?.user && (
+                                    (session.user.role === 'SUPER_ADMIN') ||
+                                    (session.user.role === 'INSTITUTION_ADMIN' && book.sourceType === 'institution' && book.institutionId === session.user.institutionId)
+                                ) ? (
+                                    <button
+                                        onClick={handleDelete}
+                                        disabled={deleting}
+                                        className="btn"
+                                        style={{ width: '100%', textAlign: 'center', display: 'block', background: 'transparent', border: '1px solid var(--error-500)', color: 'var(--error-500)' }}
+                                    >
+                                        {deleting ? '🗑️ Deleting...' : '🗑️ Delete Book'}
+                                    </button>
+                                ) : null}
                             </div>
 
                             {/* Content Index */}
