@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AuthProvider from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
+import AdBanner from '@/components/AdBanner';
 
 function InstitutionContent() {
     const { data: session } = useSession();
@@ -88,9 +89,7 @@ function InstitutionContent() {
                     </Link>
                 </div>
 
-                <div className="ad-container">
-                    <span className="ad-label">Advertisement</span>
-                </div>
+                <AdBanner dataAdSlot="institution_bottom" style={{ marginTop: 'var(--space-6)' }} />
             </main>
         </div>
     );

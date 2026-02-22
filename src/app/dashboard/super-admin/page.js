@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AuthProvider from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
+import AdBanner from '@/components/AdBanner';
 
 function SuperAdminContent() {
     const { data: session } = useSession();
@@ -221,9 +222,7 @@ function SuperAdminContent() {
                 </div>
 
                 {/* Ad */}
-                <div className="ad-container" style={{ marginTop: 'var(--space-6)' }}>
-                    <span className="ad-label">Advertisement</span>
-                </div>
+                <AdBanner dataAdSlot="superadmin_bottom" style={{ marginTop: 'var(--space-6)' }} />
             </main>
         </div>
     );

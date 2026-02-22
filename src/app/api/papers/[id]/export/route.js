@@ -5,34 +5,34 @@ import { authOptions } from '@/lib/auth';
 import puppeteer from 'puppeteer';
 
 export async function POST(request, { params }) {
-    try {
-        const session = await getServerSession(authOptions);
-        if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-        const { format = 'pdf' } = await request.json();
+    const { format = 'pdf' } = await request.json();
 
-        const paper = await prisma.paper.findUnique({
-            where: { id: params.id },
-            include: {
-                questions: { orderBy: [{ section: 'asc' }, { questionNumber: 'asc' }] },
-                book: { select: { title: true } },
-                createdBy: { select: { name: true, institution: { select: { name: true } } } },
-            },
-        });
+    const paper = await prisma.paper.findUnique({
+      where: { id: params.id },
+      include: {
+        questions: { orderBy: [{ section: 'asc' }, { questionNumber: 'asc' }] },
+        book: { select: { title: true } },
+        createdBy: { select: { name: true, institution: { select: { name: true } } } },
+      },
+    });
 
-        if (!paper) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    if (!paper) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-        // Group questions
-        const grouped = {};
-        paper.questions.forEach(q => {
-            if (!grouped[q.section]) grouped[q.section] = [];
-            grouped[q.section].push(q);
-        });
+    // Group questions
+    const grouped = {};
+    paper.questions.forEach(q => {
+      if (!grouped[q.section]) grouped[q.section] = [];
+      grouped[q.section].push(q);
+    });
 
-        const sectionLabels = { A: 'Multiple Choice Questions', B: 'Short Answer Questions', C: 'Long Answer Questions' };
+    const sectionLabels = { A: 'Multiple Choice Questions', B: 'Short Answer Questions', C: 'Long Answer Questions' };
 
-        // Build HTML
-        const html = `<!DOCTYPE html>
+    // Build HTML
+    const html = `<!DOCTYPE html>
 <html lang="${paper.language === 'urdu' ? 'ur' : 'en'}" dir="${paper.language === 'urdu' ? 'rtl' : 'ltr'}">
 <head>
   <meta charset="UTF-8">
@@ -59,12 +59,15 @@ export async function POST(request, { params }) {
 </head>
 <body>
   <div class="header">
+    ${paper.schoolName ? `<h2>${paper.schoolName}</h2>` : ''}
     <h1>${paper.title}</h1>
     <div class="meta">
+      ${paper.paperPurpose ? `<span><strong>Purpose:</strong> ${paper.paperPurpose}</span>` : ''}
       <span><strong>Class:</strong> ${paper.classLevel}</span>
       <span><strong>Subject:</strong> ${paper.subject || 'N/A'}</span>
       <span><strong>Total Marks:</strong> ${paper.totalMarks}</span>
       <span><strong>Time:</strong> ${paper.timeDuration || 'N/A'}</span>
+      ${paper.bookName ? `<span><strong>Book/Test:</strong> ${paper.bookName}</span>` : ''}
       <span><strong>Date:</strong> _______________</span>
     </div>
     ${paper.instructions ? `<div class="instructions">${paper.instructions}</div>` : ''}
@@ -74,8 +77,8 @@ export async function POST(request, { params }) {
     <div class="section-header">
       <div class="section-title">Section ${section}: ${sectionLabels[section] || 'Questions'}</div>
       <div class="section-sub">${questions[0]?.questionType === 'mcq'
-                ? 'Choose the correct answer.'
-                : `Attempt ${questions.length} questions. (${questions[0]?.marks} marks each)`}</div>
+        ? 'Choose the correct answer.'
+        : `Attempt ${questions.length} questions. (${questions[0]?.marks} marks each)`}</div>
     </div>
     ${questions.map(q => `
       <div class="question">
@@ -97,61 +100,61 @@ export async function POST(request, { params }) {
 </body>
 </html>`;
 
-        // Generate PDF with Puppeteer
-        let browser;
-        try {
-            browser = await puppeteer.launch({
-                headless: 'new',
-                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-            });
+    // Generate PDF with Puppeteer
+    let browser;
+    try {
+      browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+      });
 
-            const page = await browser.newPage();
-            await page.setContent(html, { waitUntil: 'networkidle0' });
+      const page = await browser.newPage();
+      await page.setContent(html, { waitUntil: 'networkidle0' });
 
-            const pdfBuffer = await page.pdf({
-                format: 'A4',
-                printBackground: true,
-                margin: { top: '15mm', bottom: '15mm', left: '15mm', right: '15mm' },
-            });
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: { top: '15mm', bottom: '15mm', left: '15mm', right: '15mm' },
+      });
 
-            await browser.close();
+      await browser.close();
 
-            // Update paper status
-            await prisma.paper.update({
-                where: { id: params.id },
-                data: { status: 'exported' },
-            });
+      // Update paper status
+      await prisma.paper.update({
+        where: { id: params.id },
+        data: { status: 'exported' },
+      });
 
-            // Log analytics
-            await prisma.analytics.create({
-                data: {
-                    eventType: 'paper_exported',
-                    userId: session.user.id,
-                    metadata: JSON.stringify({ paperId: params.id, format }),
-                },
-            });
+      // Log analytics
+      await prisma.analytics.create({
+        data: {
+          eventType: 'paper_exported',
+          userId: session.user.id,
+          metadata: JSON.stringify({ paperId: params.id, format }),
+        },
+      });
 
-            return new NextResponse(pdfBuffer, {
-                headers: {
-                    'Content-Type': 'application/pdf',
-                    'Content-Disposition': `attachment; filename="${paper.title.replace(/[^a-z0-9]/gi, '_')}.pdf"`,
-                    'Cache-Control': 'public, max-age=3600',
-                },
-            });
-        } catch (puppeteerError) {
-            if (browser) await browser.close();
-            console.error('Puppeteer error:', puppeteerError);
+      return new NextResponse(pdfBuffer, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `attachment; filename="${paper.title.replace(/[^a-z0-9]/gi, '_')}.pdf"`,
+          'Cache-Control': 'public, max-age=3600',
+        },
+      });
+    } catch (puppeteerError) {
+      if (browser) await browser.close();
+      console.error('Puppeteer error:', puppeteerError);
 
-            // Fallback: return HTML
-            return new NextResponse(html, {
-                headers: {
-                    'Content-Type': 'text/html',
-                    'Content-Disposition': `attachment; filename="${paper.title}.html"`,
-                },
-            });
-        }
-    } catch (error) {
-        console.error('Export error:', error);
-        return NextResponse.json({ error: 'Export failed' }, { status: 500 });
+      // Fallback: return HTML
+      return new NextResponse(html, {
+        headers: {
+          'Content-Type': 'text/html',
+          'Content-Disposition': `attachment; filename="${paper.title}.html"`,
+        },
+      });
     }
+  } catch (error) {
+    console.error('Export error:', error);
+    return NextResponse.json({ error: 'Export failed' }, { status: 500 });
+  }
 }

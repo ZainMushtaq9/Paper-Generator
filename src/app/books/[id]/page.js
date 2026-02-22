@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import AdBanner from '@/components/AdBanner';
 
 export default function BookDetailPage() {
     const params = useParams();
@@ -153,9 +154,7 @@ export default function BookDetailPage() {
                                     📝 Short Questions
                                 </Link>
                             </div>
-                            <div className="ad-container">
-                                <span className="ad-label">Advertisement</span>
-                            </div>
+                            <AdBanner dataAdSlot="book_detail_sidebar" style={{ marginTop: 'var(--space-4)' }} />
                         </div>
                     </div>
                 </div>

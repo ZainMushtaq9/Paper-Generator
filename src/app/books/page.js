@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import AdBanner from '@/components/AdBanner';
 
 export default function BookLibraryPage() {
     const [books, setBooks] = useState([]);
@@ -196,9 +197,7 @@ export default function BookLibraryPage() {
                     )}
 
                     {/* Ad Banner */}
-                    <div className="ad-container" style={{ margin: 'var(--space-8) 0' }}>
-                        <span className="ad-label">Advertisement</span>
-                    </div>
+                    <AdBanner dataAdSlot="books_bottom" style={{ margin: 'var(--space-8) 0' }} />
                 </div>
             </div>
             <Footer />

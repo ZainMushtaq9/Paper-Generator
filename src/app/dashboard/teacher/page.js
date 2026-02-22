@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AuthProvider from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
+import AdBanner from '@/components/AdBanner';
 
 function TeacherContent() {
     const { data: session } = useSession();
@@ -129,8 +130,8 @@ function TeacherContent() {
                                             <td>{paper.totalMarks}</td>
                                             <td>
                                                 <span className={`badge ${paper.status === 'exported' ? 'badge-success' :
-                                                        paper.status === 'validated' ? 'badge-primary' :
-                                                            'badge-warning'
+                                                    paper.status === 'validated' ? 'badge-primary' :
+                                                        'badge-warning'
                                                     }`}>
                                                     {paper.status}
                                                 </span>
@@ -149,9 +150,7 @@ function TeacherContent() {
                     )}
                 </div>
 
-                <div className="ad-container" style={{ marginTop: 'var(--space-6)' }}>
-                    <span className="ad-label">Advertisement</span>
-                </div>
+                <AdBanner dataAdSlot="teacher_bottom" style={{ marginTop: 'var(--space-6)' }} />
             </main>
         </div>
     );

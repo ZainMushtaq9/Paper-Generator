@@ -38,6 +38,9 @@ export async function POST(request) {
             classLevel,
             subject,
             timeDuration,
+            schoolName,
+            bookName,
+            paperPurpose,
             instructions,
             sections, // [{ type: 'mcq', count: 10, marks: 1, attemptAll: true }, ...]
             pageRange, // { from: 1, to: 50 }
@@ -51,10 +54,10 @@ export async function POST(request) {
 
         // Fetch book content if bookId provided
         let bookContent = [];
-        let bookTitle = '';
+        let bookTitle = bookName || ''; // Use custom bookName if provided
         if (bookId) {
             const book = await prisma.book.findUnique({ where: { id: bookId } });
-            if (book) bookTitle = book.title;
+            if (book && !bookTitle) bookTitle = book.title;
 
             const contentWhere = { bookId };
             if (pageRange) {
@@ -189,6 +192,9 @@ Generate the complete exam paper now.`;
                 sections: JSON.stringify(sections),
                 totalMarks,
                 timeDuration,
+                schoolName,
+                bookName,
+                paperPurpose,
                 instructions,
                 status: 'generated',
             },

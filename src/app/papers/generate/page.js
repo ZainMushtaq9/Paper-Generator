@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import AuthProvider from '@/components/AuthProvider';
+import AdBanner from '@/components/AdBanner';
 
 function GenerateContent() {
     const router = useRouter();
@@ -18,6 +19,9 @@ function GenerateContent() {
     const [config, setConfig] = useState({
         bookId: '',
         title: '',
+        schoolName: '',
+        bookName: '',
+        paperPurpose: '',
         language: 'english',
         classLevel: '9',
         subject: '',
@@ -214,6 +218,32 @@ function GenerateContent() {
                                             onChange={(e) => setConfig({ ...config, language: e.target.value })}>
                                             <option value="english">English</option>
                                             <option value="urdu">Urdu</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--space-4)' }}>
+                                    <div className="form-group">
+                                        <label className="form-label">School/Institution Name</label>
+                                        <input type="text" className="form-input" placeholder="e.g., The Smart School"
+                                            value={config.schoolName}
+                                            onChange={(e) => setConfig({ ...config, schoolName: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Custom Book/Test Name</label>
+                                        <input type="text" className="form-input" placeholder="e.g., First Term Exam"
+                                            value={config.bookName}
+                                            onChange={(e) => setConfig({ ...config, bookName: e.target.value })} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Purpose</label>
+                                        <select className="form-select" value={config.paperPurpose}
+                                            onChange={(e) => setConfig({ ...config, paperPurpose: e.target.value })}>
+                                            <option value="">Select Purpose</option>
+                                            <option value="Exam">Exam</option>
+                                            <option value="Test">Test</option>
+                                            <option value="Assessment Test">Assessment Test</option>
+                                            <option value="Quiz">Quiz</option>
                                         </select>
                                     </div>
                                 </div>
@@ -415,7 +445,13 @@ function GenerateContent() {
                                     <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)', borderBottom: '2px solid var(--border-color)', paddingBottom: 'var(--space-4)' }}>
                                         <h3>{config.title}</h3>
                                         <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
-                                            Class: {config.classLevel} | Subject: {config.subject} | Marks: {totalMarks} | Time: {config.timeDuration}
+                                            {config.schoolName && <span>School: <strong>{config.schoolName}</strong> | </span>}
+                                            {config.paperPurpose && <span>Purpose: <strong>{config.paperPurpose}</strong> | </span>}
+                                            Class: {config.classLevel} | Subject: {config.subject}
+                                        </p>
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginTop: 'var(--space-1)' }}>
+                                            Time: {config.timeDuration} | Marks: {totalMarks}
+                                            {config.bookName && <span> | Book/Test: {config.bookName}</span>}
                                         </p>
                                         {config.instructions && (
                                             <p style={{ fontSize: 'var(--text-sm)', fontStyle: 'italic', color: 'var(--text-muted)', marginTop: 'var(--space-2)' }}>
@@ -484,9 +520,7 @@ function GenerateContent() {
                         </div>
                     )}
 
-                    <div className="ad-container" style={{ marginTop: 'var(--space-8)' }}>
-                        <span className="ad-label">Advertisement</span>
-                    </div>
+                    <AdBanner dataAdSlot="generate_bottom" style={{ marginTop: 'var(--space-8)' }} />
                 </div>
             </div>
         </>

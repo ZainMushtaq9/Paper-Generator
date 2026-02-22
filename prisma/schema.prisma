@@ -87,6 +87,9 @@ model Paper {
   sections     String          @default("[]") // JSON string for section config
   totalMarks   Int             @default(0)
   timeDuration String?
+  schoolName   String?
+  bookName     String?
+  paperPurpose String?
   instructions String?
   status       String          @default("draft") // draft, generated, validated, exported
   exportPath   String?

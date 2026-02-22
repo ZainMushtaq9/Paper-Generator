@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import AuthProvider from '@/components/AuthProvider';
+import AdBanner from '@/components/AdBanner';
 
 function PaperViewContent() {
     const params = useParams();
@@ -134,9 +135,7 @@ function PaperViewContent() {
                     )}
 
                     {/* Ad Banner */}
-                    <div className="ad-container" style={{ marginBottom: 'var(--space-6)' }}>
-                        <span className="ad-label">Advertisement</span>
-                    </div>
+                    <AdBanner dataAdSlot="paper_view_top" style={{ marginBottom: 'var(--space-6)' }} />
 
                     {/* Paper Preview */}
                     <div className="glass-card" style={{ padding: 'var(--space-8)' }} id="paper-preview">
@@ -144,10 +143,13 @@ function PaperViewContent() {
                         <div style={{ textAlign: 'center', borderBottom: '2px solid var(--border-color)', paddingBottom: 'var(--space-6)', marginBottom: 'var(--space-6)' }}>
                             <h2 style={{ fontSize: 'var(--text-2xl)', marginBottom: 'var(--space-2)' }}>{paper.title}</h2>
                             <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-6)', flexWrap: 'wrap', marginBottom: 'var(--space-3)' }}>
+                                {paper.schoolName && <span><strong>School:</strong> {paper.schoolName}</span>}
+                                {paper.paperPurpose && <span><strong>Purpose:</strong> {paper.paperPurpose}</span>}
                                 <span><strong>Class:</strong> {paper.classLevel}</span>
                                 <span><strong>Subject:</strong> {paper.subject}</span>
                                 <span><strong>Total Marks:</strong> {paper.totalMarks}</span>
                                 <span><strong>Time:</strong> {paper.timeDuration}</span>
+                                {paper.bookName && <span><strong>Book/Test:</strong> {paper.bookName}</span>}
                             </div>
                             {paper.instructions && (
                                 <p style={{ fontStyle: 'italic', color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
@@ -228,9 +230,7 @@ function PaperViewContent() {
                     </div>
 
                     {/* Download Confirmation Ad */}
-                    <div className="ad-container" style={{ marginTop: 'var(--space-6)' }}>
-                        <span className="ad-label">Advertisement</span>
-                    </div>
+                    <AdBanner dataAdSlot="paper_view_bottom" style={{ marginTop: 'var(--space-6)' }} />
                 </div>
             </div>
         </>
