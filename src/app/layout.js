@@ -1,19 +1,39 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'ExamGen AI — Bilingual Exam Paper Generator | Punjab Board',
+  metadataBase: new URL('https://examgen.pk'),
+  title: {
+    default: 'ExamGen AI — Bilingual Exam Paper Generator | Punjab Board',
+    template: '%s | ExamGen AI'
+  },
   description: 'Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Generate professional exam papers from Class 1-12 textbooks in Urdu & English with AI validation.',
-  keywords: 'exam paper generator, Punjab board, PCTB, bilingual, AI, Urdu, English, Class 9, Class 10, MCQs, past papers',
+  keywords: ['exam paper generator', 'Punjab board', 'PCTB', 'bilingual', 'AI exam creator', 'Urdu', 'English', 'Class 9', 'Class 10', 'MCQs', 'past papers'],
   authors: [{ name: 'Zain Mushtaq' }],
+  creator: 'Zain Mushtaq',
+  publisher: 'ExamGen AI',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     title: 'ExamGen AI — Bilingual Exam Paper Generator',
     description: 'Free AI-powered exam paper generator for Punjab Board curriculum.',
-    type: 'website',
+    url: 'https://examgen.pk',
+    siteName: 'ExamGen AI',
     locale: 'en_PK',
+    type: 'website',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

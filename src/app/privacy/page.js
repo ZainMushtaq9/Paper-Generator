@@ -44,7 +44,7 @@ export default function PrivacyPage() {
                         },
                         {
                             title: '7. Data Retention',
-                            body: 'Your account data and generated papers are retained as long as your account is active. You may request deletion of your account and all associated data by contacting us at zainmushtaq5439@gmail.com.',
+                            body: 'Your account data and generated papers are retained as long as your account is active. You may request deletion of your account and all associated data by contacting us at mushtaqzain180@gmail.com.',
                         },
                         {
                             title: '8. Children\'s Privacy',
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
                         },
                         {
                             title: '9. Contact Us',
-                            body: 'If you have any questions about this Privacy Policy, please contact us at: zainmushtaq5439@gmail.com',
+                            body: 'If you have any questions about this Privacy Policy, please contact us at: mushtaqzain180@gmail.com',
                         },
                     ].map((section, i) => (
                         <div key={i} className="glass-card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-4)' }}>

@@ -154,7 +154,7 @@ All official books are sourced from [Punjab Curriculum & Textbook Board (PCTB)](
 
 ## 👨‍💻 Developer
 
-**Zain Mushtaq** — [zainmushtaq5439@gmail.com](mailto:zainmushtaq5439@gmail.com)
+**Zain Mushtaq** — [mushtaqzain180@gmail.com](mailto:mushtaqzain180@gmail.com)
 
 ---
 

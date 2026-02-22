@@ -62,9 +62,9 @@ export default function ContactPage() {
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                             {[
-                                { icon: '📧', label: 'Email', value: 'zainmushtaq5439@gmail.com', href: 'mailto:zainmushtaq5439@gmail.com' },
+                                { icon: '📧', label: 'Email', value: 'mushtaqzain180@gmail.com', href: 'mailto:mushtaqzain180@gmail.com' },
                                 { icon: '🌐', label: 'Website', value: 'examgen.pk', href: '#' },
-                                { icon: '🐙', label: 'GitHub', value: 'ZainMushtaq9/Paper-Generator', href: 'https://github.com/ZainMushtaq9/Paper-Generator' },
+                                { icon: '🐙', label: 'GitHub', value: 'ZainMushtaq9', href: 'https://github.com/ZainMushtaq9' },
                             ].map((item, i) => (
                                 <div key={i} className="glass-card" style={{ padding: 'var(--space-6)', display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
                                     <div style={{ fontSize: '2rem' }}>{item.icon}</div>

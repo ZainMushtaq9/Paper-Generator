@@ -68,8 +68,8 @@ export default function AboutPage() {
                         </p>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8 }}>
                             <strong>Developer:</strong> Zain Mushtaq &mdash;{' '}
-                            <a href="mailto:zainmushtaq5439@gmail.com" style={{ color: 'var(--primary-400)' }}>
-                                zainmushtaq5439@gmail.com
+                            <a href="mailto:mushtaqzain180@gmail.com" style={{ color: 'var(--primary-400)' }}>
+                                mushtaqzain180@gmail.com
                             </a>
                         </p>
                     </div>

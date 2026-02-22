@@ -56,7 +56,7 @@ export default function TermsPage() {
                         },
                         {
                             title: '10. Contact',
-                            body: 'For questions about these terms, contact: zainmushtaq5439@gmail.com',
+                            body: 'For questions about these terms, contact: mushtaqzain180@gmail.com',
                         },
                     ].map((section, i) => (
                         <div key={i} className="glass-card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-4)' }}>

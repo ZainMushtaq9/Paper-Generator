@@ -11,7 +11,7 @@ This guide outlines the steps to deploy the ExamGen AI platform to [Render](http
 
 ## Step 1: Push Code to GitHub
 
-Ensure all your code is pushed to your GitHub repository (`ZainMushtaq9/Paper-Generator`).
+Ensure all your code is pushed to your GitHub repository (`ZainMushtaq9` or specifically the repo `Paper-Generator`).
 
 If you haven't pushed yet, run these commands in your project directory:
 
