@@ -90,7 +90,6 @@ export async function POST(request, { params }) {
         ${q.options ? `<div class="options">
           ${(() => { try { return JSON.parse(q.options).map((o, k) => `<span>(${String.fromCharCode(97 + k)}) ${o}</span>`).join(''); } catch { return ''; } })()}
         </div>` : ''}
-        ${q.pageReference ? `<div class="page-ref">📄 Page Reference: ${q.pageReference}</div>` : ''}
       </div>
     `).join('')}
   `).join('')}
