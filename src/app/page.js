@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ParticleBackground from '@/components/ParticleBackground';
+import AdBanner from '@/components/AdBanner';
 
 function AnimatedCounter({ target, label, suffix = '' }) {
   const [count, setCount] = useState(0);
@@ -83,7 +84,7 @@ export default function HomePage() {
           <div className="hero-content">
             <div className="hero-badge">
               <span className="pulse-dot"></span>
-              AI-Powered • Free Forever • Punjab Board
+              AI-Powered • Free Forever • Any Book or Notes
             </div>
 
             <h1>
@@ -92,7 +93,7 @@ export default function HomePage() {
 
             <p>
               <TypewriterText
-                text="Create professional bilingual exam papers from official PCTB textbooks. Powered by AI with anti-hallucination protection and page references."
+                text="Create professional bilingual exam papers from any board textbooks, handwritten notes, or uploaded materials. Powered by AI with anti-hallucination protection and page references."
                 speed={30}
               />
             </p>
@@ -197,6 +198,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ Ad Banners ═══ */}
+      <div className="container" style={{ paddingBottom: 'var(--space-4)' }}>
+        <AdBanner dataAdSlot="home_top" />
+      </div>
+
       {/* ═══ How It Works Section ═══ */}
       <section className="section">
         <div className="container">
@@ -207,7 +213,7 @@ export default function HomePage() {
 
           <div className="steps-grid">
             {[
-              { num: 1, title: 'Select Book', desc: 'Choose from official Punjab Board textbooks or upload your own materials.' },
+              { num: 1, title: 'Upload Any Book', desc: 'Upload textbooks, notes, handwritten material, or any educational PDF you want to generate questions from.' },
               { num: 2, title: 'Choose Content', desc: 'Filter by pages, chapters, or topics. AI only uses your selected content.' },
               { num: 3, title: 'Design Paper', desc: 'Set sections, marks, MCQs, short & long questions with flexible choice options.' },
               { num: 4, title: 'Generate & Export', desc: 'AI generates, validates, and exports professional PDF with page references.' },
@@ -237,6 +243,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="container" style={{ padding: 'var(--space-4) var(--space-6)' }}>
+        <AdBanner dataAdSlot="home_middle" />
+      </div>
+
       {/* ═══ CTA Section ═══ */}
       <section className="section">
         <div className="container" style={{ textAlign: 'center' }}>
@@ -261,9 +271,7 @@ export default function HomePage() {
 
       {/* ═══ Ad Banner ═══ */}
       <div className="container" style={{ paddingBottom: 'var(--space-6)' }}>
-        <div className="ad-container">
-          <span className="ad-label">Advertisement</span>
-        </div>
+        <AdBanner dataAdSlot="home_bottom" />
       </div>
 
       <Footer />

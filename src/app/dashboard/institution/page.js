@@ -50,6 +50,8 @@ function InstitutionContent() {
                     </div>
                 </div>
 
+                <AdBanner dataAdSlot="institution_top" style={{ marginBottom: 'var(--space-6)' }} />
+
                 <div className="stats-grid">
                     {[
                         { label: 'Teachers', value: stats.teachers, icon: '👩‍🏫' },
@@ -78,7 +80,7 @@ function InstitutionContent() {
                         <div style={{ fontSize: '3rem', marginBottom: 'var(--space-3)' }}>📚</div>
                         <h4>Book Library</h4>
                         <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginTop: 'var(--space-2)' }}>
-                            Browse official & private books
+                            Browse public & private books
                         </p>
                     </Link>
                     <Link href="/books/upload" className="glass-card" style={{ padding: 'var(--space-8)', textAlign: 'center', textDecoration: 'none' }}>
@@ -89,6 +91,8 @@ function InstitutionContent() {
                         </p>
                     </Link>
                 </div>
+
+                <AdBanner dataAdSlot="institution_middle" style={{ marginBottom: 'var(--space-6)' }} />
 
                 <ChangePassword />
                 <AdBanner dataAdSlot="institution_bottom" style={{ marginTop: 'var(--space-6)' }} />

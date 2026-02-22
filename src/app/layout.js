@@ -7,9 +7,9 @@ export const metadata = {
     default: 'ExamGen AI — Free AI Exam Paper Generator for Punjab Board (PCTB) | Urdu & English',
     template: '%s | ExamGen AI'
   },
-  description: 'Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Generate professional exam papers from Class 1-12 textbooks in Urdu & English with AI validation, MCQs, short & long questions. Used by 2500+ teachers across Pakistan.',
+  description: 'Free AI-powered bilingual exam paper generator for any curriculum. Generate professional exam papers from Class 1-12 textbooks, notes, or uploaded PDFs in Urdu & English with AI validation, MCQs, short & long questions.',
   keywords: [
-    'exam paper generator', 'Punjab board', 'PCTB', 'bilingual', 'AI exam creator',
+    'exam paper generator', 'any board', 'bilingual', 'AI exam creator',
     'Urdu exam paper', 'English exam paper', 'Class 9', 'Class 10', 'Class 11', 'Class 12',
     'MCQs generator', 'past papers', 'Pakistan education', 'Punjab textbook board',
     'free exam paper maker', 'AI question generator', 'online paper generator Pakistan',
@@ -34,8 +34,8 @@ export const metadata = {
     canonical: 'https://examgen.pk',
   },
   openGraph: {
-    title: 'ExamGen AI — Free AI Exam Paper Generator for Punjab Board',
-    description: 'Create professional bilingual exam papers from official PCTB textbooks. AI-powered with anti-hallucination & page references. Free forever.',
+    title: 'ExamGen AI — Free AI Exam Paper Generator',
+    description: 'Create professional bilingual exam papers from any textbooks or notes. AI-powered with anti-hallucination & page references. Free forever.',
     url: 'https://examgen.pk',
     siteName: 'ExamGen AI',
     locale: 'en_PK',
@@ -50,7 +50,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ExamGen AI — Free AI Exam Paper Generator',
-    description: 'Generate professional bilingual exam papers from Punjab Board textbooks. Free, AI-powered, supports Urdu & English.',
+    description: 'Generate professional bilingual exam papers from any uploaded textbooks or notes. Free, AI-powered, supports Urdu & English.',
     images: ['/og-image.png'],
   },
   robots: {

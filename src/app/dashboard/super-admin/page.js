@@ -140,6 +140,8 @@ function SuperAdminContent() {
                     </Link>
                 </div>
 
+                <AdBanner dataAdSlot="superadmin_top" style={{ marginBottom: 'var(--space-6)' }} />
+
                 {/* Stats */}
                 <div className="stats-grid">
                     {[
@@ -298,6 +300,8 @@ function SuperAdminContent() {
                         </table>
                     </div>
                 </div>
+
+                <AdBanner dataAdSlot="superadmin_middle" style={{ marginBottom: 'var(--space-6)' }} />
 
                 <ChangePassword />
 

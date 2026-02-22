@@ -54,6 +54,8 @@ function TeacherContent() {
                     </Link>
                 </div>
 
+                <AdBanner dataAdSlot="teacher_top" style={{ marginBottom: 'var(--space-6)' }} />
+
                 {/* Daily Limit */}
                 <div className="glass-card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-6)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
@@ -150,6 +152,8 @@ function TeacherContent() {
                         </div>
                     )}
                 </div>
+
+                <AdBanner dataAdSlot="teacher_middle" style={{ marginBottom: 'var(--space-6)' }} />
 
                 <ChangePassword />
                 <AdBanner dataAdSlot="teacher_bottom" style={{ marginTop: 'var(--space-6)' }} />

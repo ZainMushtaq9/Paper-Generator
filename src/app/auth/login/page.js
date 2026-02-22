@@ -78,7 +78,7 @@ function LoginForm() {
             </p>
             <div style={{ marginTop: 'var(--space-6)', padding: 'var(--space-4)', background: 'rgba(99,102,241,0.05)', borderRadius: 'var(--radius-lg)', fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
                 <p style={{ fontWeight: 600, marginBottom: 'var(--space-2)', color: 'var(--text-secondary)' }}>Demo Accounts (password: admin123):</p>
-                <p>Super Admin: admin@examgen.pk</p>
+                <p>Super Admin: zainmushtaq5439@gmail.com</p>
                 <p>Institution Admin: admin@school.pk</p>
                 <p>Teacher: teacher@school.pk</p>
             </div>

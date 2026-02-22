@@ -190,8 +190,8 @@ function UploadContent() {
                                         value={formData.sourceType}
                                         onChange={(e) => setFormData({ ...formData, sourceType: e.target.value })}
                                     >
-                                        <option value="institution">Institution</option>
-                                        <option value="official">Official PCTB</option>
+                                        <option value="institution">Private (Institution Only)</option>
+                                        <option value="official">Public (Available to all)</option>
                                     </select>
                                 </div>
                             </div>

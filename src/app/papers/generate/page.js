@@ -147,6 +147,8 @@ function GenerateContent() {
                         <p>Generate exam papers with AI in {4 - (step >= 4 ? 0 : step - 1)} simple steps</p>
                     </div>
 
+                    <AdBanner dataAdSlot="generate_top" style={{ marginBottom: 'var(--space-6)' }} />
+
                     {/* Step Indicators */}
                     <div style={{
                         display: 'flex',
@@ -520,7 +522,8 @@ function GenerateContent() {
                         </div>
                     )}
 
-                    <AdBanner dataAdSlot="generate_bottom" style={{ marginTop: 'var(--space-8)' }} />
+                    <AdBanner dataAdSlot="generate_middle" style={{ marginTop: 'var(--space-6)', marginBottom: 'var(--space-4)' }} />
+                    <AdBanner dataAdSlot="generate_bottom" style={{ marginTop: 'var(--space-4)' }} />
                 </div>
             </div>
         </>

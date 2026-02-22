@@ -58,8 +58,10 @@ export default function BookLibraryPage() {
                     {/* Header */}
                     <div className="section-header" style={{ marginBottom: 'var(--space-8)' }}>
                         <h1>📚 Book <span className="gradient-text">Library</span></h1>
-                        <p>Browse official Punjab Board textbooks and institution materials</p>
+                        <p>Browse public textbooks, notes, and institution materials</p>
                     </div>
+
+                    <AdBanner dataAdSlot="books_top" style={{ marginBottom: 'var(--space-6)' }} />
 
                     {/* Filters */}
                     <div className="glass-card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-6)' }}>
@@ -120,7 +122,7 @@ export default function BookLibraryPage() {
                                     onChange={(e) => { setFilters({ ...filters, source: e.target.value }); setPage(1); }}
                                 >
                                     <option value="">All Sources</option>
-                                    <option value="official">Official PCTB (Punjab Board)</option>
+                                    <option value="official">Public / Admin Uploads</option>
                                     <option value="institution">Private / Institution</option>
                                 </select>
                             </div>
@@ -133,6 +135,8 @@ export default function BookLibraryPage() {
                             {total} book{total !== 1 ? 's' : ''} found
                         </p>
                     </div>
+
+                    <AdBanner dataAdSlot="books_middle" style={{ marginBottom: 'var(--space-6)' }} />
 
                     {/* Book Grid */}
                     {loading ? (
@@ -168,7 +172,7 @@ export default function BookLibraryPage() {
                                 >
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-3)' }}>
                                         <span className={`badge ${book.sourceType === 'official' ? 'badge-primary' : 'badge-success'}`}>
-                                            {book.sourceType === 'official' ? '🏛️ Official' : '🏫 Institution'}
+                                            {book.sourceType === 'official' ? '🏛️ Public' : '🏫 Institution'}
                                         </span>
                                         <span className={`badge ${book.medium === 'urdu' ? 'badge-warning' : 'badge-primary'}`}>
                                             {book.medium === 'urdu' ? 'اردو' : 'English'}
