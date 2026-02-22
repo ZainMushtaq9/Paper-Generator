@@ -120,8 +120,8 @@ export default function BookLibraryPage() {
                                     onChange={(e) => { setFilters({ ...filters, source: e.target.value }); setPage(1); }}
                                 >
                                     <option value="">All Sources</option>
-                                    <option value="official">Official PCTB</option>
-                                    <option value="institution">Institution</option>
+                                    <option value="official">Official PCTB (Punjab Board)</option>
+                                    <option value="institution">Private / Institution</option>
                                 </select>
                             </div>
                         </div>
