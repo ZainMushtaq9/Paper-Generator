@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(uuid())
+  name          String
+  email         String       @unique
+  password      String
+  role          String       @default("TEACHER") // SUPER_ADMIN, INSTITUTION_ADMIN, TEACHER
+  institutionId String?
+  institution   Institution? @relation(fields: [institutionId], references: [id])
+  papers        Paper[]
+  books         Book[]       @relation("UploadedBooks")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Institution {
+  id        String   @id @default(uuid())
+  name      String
+  logo      String?
+  address   String?
+  phone     String?
+  email     String?
+  website   String?
+  approved  Boolean  @default(false)
+  users     User[]
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Book {
+  id            String        @id @default(uuid())
+  title         String
+  classLevel    String        // "1" through "12"
+  subject       String
+  medium        String        // "english" or "urdu"
+  board         String        @default("Punjab")
+  sourceType    String        // "official" or "institution"
+  uploadType    String        @default("pdf_text") // pdf_text, pdf_scanned, image
+  storagePath   String
+  fileSize      Int           @default(0)
+  ocrStatus     String        @default("pending") // pending, processing, completed, failed
+  indexedStatus String        @default("pending") // pending, processing, completed, failed
+  language      String        @default("english") // auto-detected
+  createdById   String?
+  createdBy     User?         @relation("UploadedBooks", fields: [createdById], references: [id])
+  institutionId String?
+  institution   Institution?  @relation(fields: [institutionId], references: [id])
+  contents      BookContent[]
+  papers        Paper[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model BookContent {
+  id          String  @id @default(uuid())
+  bookId      String
+  book        Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapterName String?
+  topicName   String?
+  pageNumber  Int
+  textContent String
+  contentType String  @default("paragraph") // paragraph, definition, formula, example, heading
+  confidence  Float   @default(0.0)
+  language    String  @default("english")
+  createdAt   DateTime @default(now())
+}
+
+model Paper {
+  id           String          @id @default(uuid())
+  title        String
+  bookId       String?
+  book         Book?           @relation(fields: [bookId], references: [id])
+  createdById  String
+  createdBy    User            @relation(fields: [createdById], references: [id])
+  language     String          @default("english")
+  classLevel   String?
+  subject      String?
+  sections     String          @default("[]") // JSON string for section config
+  totalMarks   Int             @default(0)
+  timeDuration String?
+  instructions String?
+  status       String          @default("draft") // draft, generated, validated, exported
+  exportPath   String?
+  questions    PaperQuestion[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model PaperQuestion {
+  id            String @id @default(uuid())
+  paperId       String
+  paper         Paper  @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  section       String // "A", "B", "C"
+  questionNumber Int
+  questionText  String
+  questionType  String // "mcq", "short", "long"
+  options       String? // JSON string for MCQ options
+  correctAnswer String?
+  marks         Int     @default(1)
+  pageReference Int?
+  chapterRef    String?
+  confidence    Float   @default(0.0)
+  createdAt     DateTime @default(now())
+}
+
+model Analytics {
+  id        String   @id @default(uuid())
+  eventType String   // paper_generated, book_uploaded, ocr_processed, user_login
+  userId    String?
+  metadata  String?  // JSON
+  createdAt DateTime @default(now())
+}

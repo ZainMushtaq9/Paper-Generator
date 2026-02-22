@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /books
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /papers/
+
+Sitemap: https://examgen.pk/sitemap.xml
+
+# ExamGen AI - AI-Powered Bilingual Exam Paper Generator
+# https://examgen.pk
