@@ -149,10 +149,11 @@ export default function BookLibraryPage() {
                             <div style={{ fontSize: '4rem', marginBottom: 'var(--space-4)' }}>📚</div>
                             <h3>No Books Found</h3>
                             <p style={{ color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
-                                Try adjusting your filters or upload a new book.
+                                This section does not have any books from PTBB pre-loaded.
+                                <br />Please download official PDFs from the <a href="https://ptbb.punjab.gov.pk/E-Books" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-400)' }}>PCTB e-Books portal</a> and upload them.
                             </p>
                             <Link href="/books/upload" className="btn btn-primary" style={{ marginTop: 'var(--space-4)' }}>
-                                📤 Upload Book
+                                📤 Upload Official Book
                             </Link>
                         </div>
                     ) : (

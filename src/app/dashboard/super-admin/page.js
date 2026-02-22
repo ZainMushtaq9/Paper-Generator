@@ -44,6 +44,14 @@ function SuperAdminContent() {
         } catch (e) { console.error(e); }
     };
 
+    const deleteInstitution = async (id) => {
+        if (!confirm('Are you sure you want to delete this institution and all its users?')) return;
+        try {
+            const res = await fetch(`/api/institutions/${id}`, { method: 'DELETE' });
+            if (res.ok) fetchInstitutions();
+        } catch (e) { console.error(e); }
+    };
+
     return (
         <div className="dashboard-layout">
             <aside className={`sidebar ${sidebarOpen ? '' : 'sidebar-collapsed'}`}>
@@ -140,12 +148,19 @@ function SuperAdminContent() {
                                             <td style={{ fontWeight: 600 }}>{inst.name}</td>
                                             <td>{inst.email}</td>
                                             <td>{new Date(inst.createdAt).toLocaleDateString()}</td>
-                                            <td>
+                                            <td style={{ display: 'flex', gap: 'var(--space-2)' }}>
                                                 <button
                                                     className="btn btn-primary btn-sm"
                                                     onClick={() => approveInstitution(inst.id)}
                                                 >
                                                     ✅ Approve
+                                                </button>
+                                                <button
+                                                    className="btn btn-sm"
+                                                    style={{ background: 'var(--error-500)', color: 'white', border: 'none' }}
+                                                    onClick={() => deleteInstitution(inst.id)}
+                                                >
+                                                    🗑️ Reject
                                                 </button>
                                             </td>
                                         </tr>
@@ -167,6 +182,7 @@ function SuperAdminContent() {
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Created</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,11 +196,21 @@ function SuperAdminContent() {
                                             </span>
                                         </td>
                                         <td>{new Date(inst.createdAt).toLocaleDateString()}</td>
+                                        <td>
+                                            <button
+                                                className="btn btn-sm"
+                                                style={{ background: 'var(--bg-tertiary)', color: 'var(--error-500)', border: '1px solid var(--border-color)' }}
+                                                onClick={() => deleteInstitution(inst.id)}
+                                                title="Delete Institution"
+                                            >
+                                                🗑️
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                                 {institutions.length === 0 && (
                                     <tr>
-                                        <td colSpan="4" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 'var(--space-8)' }}>
+                                        <td colSpan="5" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 'var(--space-8)' }}>
                                             No institutions yet
                                         </td>
                                     </tr>
