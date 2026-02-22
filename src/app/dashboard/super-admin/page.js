@@ -198,7 +198,22 @@ function SuperAdminContent() {
                                             </span>
                                         </td>
                                         <td>{new Date(inst.createdAt).toLocaleDateString()}</td>
-                                        <td>
+                                        <td style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                                            <button
+                                                className="btn btn-sm btn-secondary"
+                                                onClick={async () => {
+                                                    if (!confirm(`Are you sure you want to reset the admin password for ${inst.name}?`)) return;
+                                                    try {
+                                                        const res = await fetch(`/api/institutions/${inst.id}/reset-admin`, { method: 'POST' });
+                                                        const data = await res.json();
+                                                        if (res.ok) alert(`SUCCESS! Securely provide this temporary password to the admin of ${inst.name}:\n\n🔒 ${data.newPassword}\n\nThey must log in with this password and can change it from their dashboard.`);
+                                                        else alert(data.error || 'Failed to reset password');
+                                                    } catch (e) { alert('An unexpected error occurred'); }
+                                                }}
+                                                title="Reset Institution Admin Password"
+                                            >
+                                                🔑 Reset
+                                            </button>
                                             <button
                                                 className="btn btn-sm"
                                                 style={{ background: 'var(--bg-tertiary)', color: 'var(--error-500)', border: '1px solid var(--border-color)' }}
