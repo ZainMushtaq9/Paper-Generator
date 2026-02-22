@@ -9,10 +9,11 @@ export async function POST(request, { params }) {
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+    const { id } = await params;
     const { format = 'pdf' } = await request.json();
 
     const paper = await prisma.paper.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         questions: { orderBy: [{ section: 'asc' }, { questionNumber: 'asc' }] },
         book: { select: { title: true } },
@@ -121,7 +122,7 @@ export async function POST(request, { params }) {
 
       // Update paper status
       await prisma.paper.update({
-        where: { id: params.id },
+        where: { id },
         data: { status: 'exported' },
       });
 
@@ -130,7 +131,7 @@ export async function POST(request, { params }) {
         data: {
           eventType: 'paper_exported',
           userId: session.user.id,
-          metadata: JSON.stringify({ paperId: params.id, format }),
+          metadata: JSON.stringify({ paperId: id, format }),
         },
       });
 

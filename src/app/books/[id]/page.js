@@ -7,8 +7,9 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AdBanner from '@/components/AdBanner';
+import AuthProvider from '@/components/AuthProvider';
 
-export default function BookDetailPage() {
+function BookDetailContent() {
     const params = useParams();
     const router = useRouter();
     const { data: session } = useSession();
@@ -161,5 +162,13 @@ export default function BookDetailPage() {
             </div>
             <Footer />
         </>
+    );
+}
+
+export default function BookDetailPage() {
+    return (
+        <AuthProvider>
+            <BookDetailContent />
+        </AuthProvider>
     );
 }

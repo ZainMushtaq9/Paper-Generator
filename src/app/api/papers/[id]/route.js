@@ -7,9 +7,9 @@ export async function GET(request, { params }) {
     try {
         const session = await getServerSession(authOptions);
         if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
+        const { id } = await params;
         const paper = await prisma.paper.findUnique({
-            where: { id: params.id },
+            where: { id },
             include: {
                 questions: { orderBy: [{ section: 'asc' }, { questionNumber: 'asc' }] },
                 book: { select: { title: true, classLevel: true, subject: true } },

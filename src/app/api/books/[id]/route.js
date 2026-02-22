@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 
 export async function GET(request, { params }) {
     try {
-        const { id } = params;
+        const { id } = await params;
 
         const book = await prisma.book.findUnique({
             where: { id },
@@ -38,7 +38,7 @@ export async function DELETE(request, { params }) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const { id } = params;
+        const { id } = await params;
         const book = await prisma.book.findUnique({ where: { id } });
 
         if (!book) {
