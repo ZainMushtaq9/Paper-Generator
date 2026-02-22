@@ -10,11 +10,11 @@ async function main() {
     const hashedPassword = await bcrypt.hash('admin123', 12);
 
     const superAdmin = await prisma.user.upsert({
-        where: { email: 'admin@examgen.pk' },
+        where: { email: 'zainmushtaq5439@gmail.com' },
         update: {},
         create: {
             name: 'Super Admin',
-            email: 'admin@examgen.pk',
+            email: 'zainmushtaq5439@gmail.com',
             password: hashedPassword,
             role: 'SUPER_ADMIN',
         },
@@ -66,8 +66,19 @@ async function main() {
 
     console.log(`✅ Teacher created: ${teacher.email}`);
 
+    // Seed Global Settings
+    const setting = await prisma.systemSetting.upsert({
+        where: { key: 'autoApproveInstitutions' },
+        update: {},
+        create: {
+            key: 'autoApproveInstitutions',
+            value: 'false'
+        }
+    });
+    console.log(`✅ SystemSetting created: autoApproveInstitutions = ${setting.value}`);
+
     console.log('\n📋 Test Credentials (all passwords: admin123):');
-    console.log('   Super Admin: admin@examgen.pk');
+    console.log('   Super Admin: zainmushtaq5439@gmail.com');
     console.log('   Institution Admin: admin@school.pk');
     console.log('   Teacher: teacher@school.pk');
     console.log('\n🎉 Seeding complete!');

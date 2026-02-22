@@ -13,11 +13,41 @@ function SuperAdminContent() {
     const [stats, setStats] = useState({ institutions: 0, teachers: 0, books: 0, papers: 0 });
     const [institutions, setInstitutions] = useState([]);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [autoApprove, setAutoApprove] = useState(false);
+    const [updatingSetting, setUpdatingSetting] = useState(false);
 
     useEffect(() => {
         fetchStats();
         fetchInstitutions();
+        fetchSettings();
     }, []);
+
+    const fetchSettings = async () => {
+        try {
+            const res = await fetch('/api/settings');
+            if (res.ok) {
+                const data = await res.json();
+                setAutoApprove(data.autoApproveInstitutions === 'true');
+            }
+        } catch (e) { console.error(e); }
+    };
+
+    const toggleAutoApprove = async () => {
+        setUpdatingSetting(true);
+        const newValue = !autoApprove;
+        try {
+            const res = await fetch('/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'autoApproveInstitutions', value: String(newValue) })
+            });
+            if (res.ok) {
+                setAutoApprove(newValue);
+            }
+        } catch (e) { console.error(e); } finally {
+            setUpdatingSetting(false);
+        }
+    };
 
     const fetchStats = async () => {
         try {
@@ -124,6 +154,38 @@ function SuperAdminContent() {
                             <div className="stat-label">{stat.label}</div>
                         </div>
                     ))}
+                </div>
+
+                {/* Global Settings */}
+                <div className="glass-card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-6)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h3 style={{ marginBottom: 'var(--space-2)' }}>⚙️ Global Settings</h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', margin: 0 }}>
+                                Control how new institution registrations are handled.
+                            </p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                            <span style={{ fontWeight: 500 }}>Auto-Approve New Institutions</span>
+                            <button
+                                onClick={toggleAutoApprove}
+                                disabled={updatingSetting}
+                                style={{
+                                    width: '50px', height: '26px', borderRadius: '13px',
+                                    background: autoApprove ? 'var(--success-500)' : 'var(--bg-tertiary)',
+                                    border: '1px solid var(--border-color)',
+                                    position: 'relative', cursor: updatingSetting ? 'wait' : 'pointer',
+                                    transition: 'background 0.3s'
+                                }}
+                            >
+                                <div style={{
+                                    width: '20px', height: '20px', background: 'white', borderRadius: '50%',
+                                    position: 'absolute', top: '2px', left: autoApprove ? '26px' : '2px',
+                                    transition: 'left 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                                }} />
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Pending Institutions */}

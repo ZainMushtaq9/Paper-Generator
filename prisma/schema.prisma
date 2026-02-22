@@ -122,3 +122,20 @@ model Analytics {
   metadata  String?  // JSON
   createdAt DateTime @default(now())
 }
+
+model ResetToken {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model SystemSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   // "true" or "false"
+  updatedAt DateTime @updatedAt
+}

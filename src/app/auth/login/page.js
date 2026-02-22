@@ -57,7 +57,12 @@ function LoginForm() {
                     value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
             </div>
             <div className="form-group" style={{ marginBottom: 'var(--space-6)' }}>
-                <label className="form-label">Password</label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
+                    <Link href="/auth/forgot-password" style={{ fontSize: 'var(--text-sm)', color: 'var(--primary-400)', textDecoration: 'none' }}>
+                        Forgot Password?
+                    </Link>
+                </div>
                 <input type="password" className="form-input" placeholder="Enter your password"
                     value={password} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" />
             </div>

@@ -24,12 +24,16 @@ export async function POST(request) {
         // Hash password
         const hashedPassword = await hash(password, 12);
 
+        // Check autoApprove setting
+        const setting = await prisma.systemSetting.findUnique({ where: { key: 'autoApproveInstitutions' } });
+        const autoApprove = setting?.value === 'true';
+
         // Create institution
         const institution = await prisma.institution.create({
             data: {
                 name: institutionName,
                 email: email,
-                approved: false,
+                approved: autoApprove,
             },
         });
 
