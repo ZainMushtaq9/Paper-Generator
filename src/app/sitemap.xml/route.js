@@ -10,6 +10,7 @@ export async function GET() {
         { url: '/contact', priority: '0.7', changefreq: 'monthly' },
         { url: '/privacy', priority: '0.5', changefreq: 'yearly' },
         { url: '/terms', priority: '0.5', changefreq: 'yearly' },
+        { url: '/disclaimer', priority: '0.5', changefreq: 'yearly' },
         { url: '/books', priority: '0.9', changefreq: 'daily' },
         { url: '/auth/login', priority: '0.6', changefreq: 'monthly' },
         { url: '/auth/register', priority: '0.6', changefreq: 'monthly' },

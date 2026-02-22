@@ -1,3 +1,6 @@
+# ExamGen AI - AI-Powered Bilingual Exam Paper Generator
+# https://examgen.pk
+
 User-agent: *
 Allow: /
 Allow: /books
@@ -5,13 +8,54 @@ Allow: /about
 Allow: /contact
 Allow: /privacy
 Allow: /terms
-
+Allow: /disclaimer
 Disallow: /dashboard/
 Disallow: /api/
 Disallow: /auth/
 Disallow: /papers/
 
-Sitemap: https://examgen.pk/sitemap.xml
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
 
-# ExamGen AI - AI-Powered Bilingual Exam Paper Generator
-# https://examgen.pk
+# Google AI (Gemini)
+User-agent: Google-Extended
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# ChatGPT / OpenAI
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# Microsoft Copilot
+User-agent: CopilotBot
+Allow: /
+
+Sitemap: https://examgen.pk/sitemap.xml

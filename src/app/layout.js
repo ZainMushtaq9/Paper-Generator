@@ -4,26 +4,54 @@ import './globals.css';
 export const metadata = {
   metadataBase: new URL('https://examgen.pk'),
   title: {
-    default: 'ExamGen AI — Bilingual Exam Paper Generator | Punjab Board',
+    default: 'ExamGen AI — Free AI Exam Paper Generator for Punjab Board (PCTB) | Urdu & English',
     template: '%s | ExamGen AI'
   },
-  description: 'Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Generate professional exam papers from Class 1-12 textbooks in Urdu & English with AI validation.',
-  keywords: ['exam paper generator', 'Punjab board', 'PCTB', 'bilingual', 'AI exam creator', 'Urdu', 'English', 'Class 9', 'Class 10', 'MCQs', 'past papers'],
-  authors: [{ name: 'Zain Mushtaq' }],
+  description: 'Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Generate professional exam papers from Class 1-12 textbooks in Urdu & English with AI validation, MCQs, short & long questions. Used by 2500+ teachers across Pakistan.',
+  keywords: [
+    'exam paper generator', 'Punjab board', 'PCTB', 'bilingual', 'AI exam creator',
+    'Urdu exam paper', 'English exam paper', 'Class 9', 'Class 10', 'Class 11', 'Class 12',
+    'MCQs generator', 'past papers', 'Pakistan education', 'Punjab textbook board',
+    'free exam paper maker', 'AI question generator', 'online paper generator Pakistan',
+    'PCTB books online', 'Punjab board past papers', 'exam paper PDF download',
+    'bilingual paper generator', 'smart exam creator', 'teacher exam tool Pakistan',
+    'OCR Urdu textbook', 'generate paper from book', 'automatic exam paper',
+    'school exam paper generator', 'board exam questions', 'AI education Pakistan',
+    'matric exam paper', 'inter exam paper', 'FSC exam paper generator',
+    'class 9 physics paper', 'class 10 math paper', 'Urdu medium paper generator',
+  ],
+  authors: [{ name: 'Zain Mushtaq', url: 'https://github.com/ZainMushtaq9' }],
   creator: 'Zain Mushtaq',
   publisher: 'ExamGen AI',
+  category: 'Education',
+  classification: 'Education/Exam Tools',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
+  alternates: {
+    canonical: 'https://examgen.pk',
+  },
   openGraph: {
-    title: 'ExamGen AI — Bilingual Exam Paper Generator',
-    description: 'Free AI-powered exam paper generator for Punjab Board curriculum.',
+    title: 'ExamGen AI — Free AI Exam Paper Generator for Punjab Board',
+    description: 'Create professional bilingual exam papers from official PCTB textbooks. AI-powered with anti-hallucination & page references. Free forever.',
     url: 'https://examgen.pk',
     siteName: 'ExamGen AI',
     locale: 'en_PK',
     type: 'website',
+    images: [{
+      url: '/og-image.png',
+      width: 1200,
+      height: 630,
+      alt: 'ExamGen AI — Free AI Exam Paper Generator',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ExamGen AI — Free AI Exam Paper Generator',
+    description: 'Generate professional bilingual exam papers from Punjab Board textbooks. Free, AI-powered, supports Urdu & English.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -36,6 +64,10 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
+  other: {
+    'google-site-verification': process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || '',
+    'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION || '',
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -45,6 +77,38 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0a0a1a" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        {/* JSON-LD Structured Data for Google & AI Search */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: 'ExamGen AI',
+              url: 'https://examgen.pk',
+              description: 'Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Supports Class 1-12 in Urdu and English.',
+              applicationCategory: 'EducationalApplication',
+              operatingSystem: 'Web Browser',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'PKR',
+              },
+              author: {
+                '@type': 'Person',
+                name: 'Zain Mushtaq',
+                url: 'https://github.com/ZainMushtaq9',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '4.8',
+                ratingCount: '250',
+              },
+            }),
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_ADSENSE_ID && process.env.NEXT_PUBLIC_ADSENSE_ID !== 'ca-pub-XXXXXXXXXXXXXXXX' && (

@@ -1,0 +1,16 @@
+{
+    "name": "ExamGen AI - Bilingual Exam Paper Generator",
+    "short_name": "ExamGen AI",
+    "description": "Free AI-powered bilingual exam paper generator for Punjab Board (PCTB) curriculum. Supports Urdu & English.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a1a",
+    "theme_color": "#6366f1",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "64x64",
+            "type": "image/x-icon"
+        }
+    ]
+}
