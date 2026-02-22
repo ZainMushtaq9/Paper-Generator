@@ -6,6 +6,7 @@ import Link from 'next/link';
 import AuthProvider from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
 import AdBanner from '@/components/AdBanner';
+import ChangePassword from '@/components/ChangePassword';
 
 function SuperAdminContent() {
     const { data: session } = useSession();
@@ -220,6 +221,8 @@ function SuperAdminContent() {
                         </table>
                     </div>
                 </div>
+
+                <ChangePassword />
 
                 {/* Ad */}
                 <AdBanner dataAdSlot="superadmin_bottom" style={{ marginTop: 'var(--space-6)' }} />
