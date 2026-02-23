@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import AuthProvider from '@/components/AuthProvider';
@@ -9,6 +10,7 @@ import AdBanner from '@/components/AdBanner';
 
 function GenerateContent() {
     const router = useRouter();
+    const { data: session } = useSession();
     const [step, setStep] = useState(1);
     const [books, setBooks] = useState([]);
     const [generating, setGenerating] = useState(false);
@@ -27,6 +29,7 @@ function GenerateContent() {
         subject: '',
         timeDuration: '3 Hours',
         instructions: 'Attempt all questions. Marks are indicated against each question.',
+        customInstructions: '',
         pageRange: { from: 1, to: 999 },
         chapterFilter: '',
         topicFilter: '',
@@ -36,6 +39,13 @@ function GenerateContent() {
             { type: 'long', count: 5, marks: 10, attemptCount: 3 },
         ],
     });
+
+    // Auto-fill school name from session
+    useEffect(() => {
+        if (session?.user?.institutionName && !config.schoolName) {
+            setConfig(prev => ({ ...prev, schoolName: session.user.institutionName }));
+        }
+    }, [session]);
 
     useEffect(() => {
         fetchBooks();
@@ -74,6 +84,10 @@ function GenerateContent() {
     const handleGenerate = async () => {
         if (!config.title) {
             alert('Please enter a paper title');
+            return;
+        }
+        if (!config.bookId) {
+            alert('Please select a book first. Papers can only be generated from uploaded books/notes.');
             return;
         }
 
@@ -181,9 +195,9 @@ function GenerateContent() {
                     {/* Step 1: Select Book */}
                     {step === 1 && (
                         <div className="glass-card animate-fade-in-up" style={{ padding: 'var(--space-8)' }}>
-                            <h3 style={{ marginBottom: 'var(--space-4)' }}>📚 Step 1: Select Book (Optional)</h3>
+                            <h3 style={{ marginBottom: 'var(--space-4)' }}>📚 Step 1: Select Book *</h3>
                             <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-6)', fontSize: 'var(--text-sm)' }}>
-                                Select a book to generate questions from its content, or skip to generate from AI&apos;s knowledge.
+                                Select an uploaded book, notes, or PDF to generate questions from. All questions will come strictly from the selected content.
                             </p>
 
                             <div style={{ display: 'grid', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
@@ -250,20 +264,24 @@ function GenerateContent() {
                                     </div>
                                 </div>
 
-                                {books.length > 0 && (
-                                    <div className="form-group">
-                                        <label className="form-label">Select Book</label>
-                                        <select className="form-select" value={config.bookId}
-                                            onChange={(e) => setConfig({ ...config, bookId: e.target.value })}>
-                                            <option value="">-- No book (use AI knowledge) --</option>
-                                            {books.map(b => (
-                                                <option key={b.id} value={b.id}>
-                                                    {b.title} (Class {b.classLevel}, {b.medium})
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                )}
+                                <div className="form-group">
+                                    <label className="form-label">📚 Select Book / Notes / PDF *</label>
+                                    <select className="form-select" value={config.bookId}
+                                        onChange={(e) => setConfig({ ...config, bookId: e.target.value })}
+                                        style={{ borderColor: !config.bookId ? 'var(--warning-400)' : undefined }}>
+                                        <option value="">-- Select a book (Required) --</option>
+                                        {books.map(b => (
+                                            <option key={b.id} value={b.id}>
+                                                {b.title} (Class {b.classLevel}, {b.medium})
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {!config.bookId && (
+                                        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--warning-400)', marginTop: 'var(--space-1)' }}>
+                                            ⚠️ A book must be selected. Questions are generated ONLY from uploaded content.
+                                        </p>
+                                    )}
+                                </div>
                             </div>
 
                             <button className="btn btn-primary btn-lg" onClick={() => setStep(2)} style={{ width: '100%' }}>
@@ -310,6 +328,22 @@ function GenerateContent() {
                                     <input type="text" className="form-input" placeholder="e.g., 3 Hours"
                                         value={config.timeDuration}
                                         onChange={(e) => setConfig({ ...config, timeDuration: e.target.value })} />
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'grid', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
+                                <div className="form-group">
+                                    <label className="form-label">📝 Custom Instructions for Paper (Optional)</label>
+                                    <textarea
+                                        className="form-textarea"
+                                        rows={3}
+                                        placeholder="e.g., Focus on chapter 3-5, include more conceptual MCQs, make long questions application-based, include diagrams-related questions..."
+                                        value={config.customInstructions}
+                                        onChange={(e) => setConfig({ ...config, customInstructions: e.target.value })}
+                                    />
+                                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: 'var(--space-1)' }}>
+                                        Tell the AI how you want the paper structured. This will guide the question generation.
+                                    </p>
                                 </div>
                             </div>
 

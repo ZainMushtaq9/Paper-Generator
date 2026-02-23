@@ -42,6 +42,7 @@ export async function POST(request) {
             bookName,
             paperPurpose,
             instructions,
+            customInstructions,
             sections, // [{ type: 'mcq', count: 10, marks: 1, attemptAll: true }, ...]
             pageRange, // { from: 1, to: 50 }
             chapterFilter,
@@ -50,6 +51,10 @@ export async function POST(request) {
 
         if (!title || !sections || sections.length === 0) {
             return NextResponse.json({ error: 'Title and sections are required' }, { status: 400 });
+        }
+
+        if (!bookId) {
+            return NextResponse.json({ error: 'A book must be selected. Questions are generated ONLY from uploaded books/notes.' }, { status: 400 });
         }
 
         // Fetch book content if bookId provided
@@ -80,10 +85,14 @@ export async function POST(request) {
             });
         }
 
-        // Build AI prompt
+        // Build AI prompt - ONLY use book content, never outside knowledge
         const contentText = bookContent.length > 0
             ? bookContent.map(c => `[Page ${c.pageNumber}] ${c.textContent}`).join('\n\n')
-            : `Generate questions for ${subject || 'General'} class ${classLevel || '9'} level exam.`;
+            : 'ERROR: No content found for the selected pages/filters. Please widen your page range or remove filters.';
+
+        if (bookContent.length === 0) {
+            return NextResponse.json({ error: 'No content found for the selected book/pages. Make sure the book has been processed with OCR. Try widening the page range or removing filters.' }, { status: 400 });
+        }
 
         const sectionPrompts = sections.map((s, i) => {
             const sectionLabel = String.fromCharCode(65 + i); // A, B, C
@@ -98,28 +107,35 @@ export async function POST(request) {
             return sum + (attemptCount * s.marks);
         }, 0);
 
-        const prompt = `You are an expert exam paper generator for Pakistani education system (Punjab Board).
-Generate a ${language === 'urdu' ? 'Urdu' : 'English'} language exam paper based on the following content and structure.
+        const prompt = `You are an expert exam paper generator for Pakistani education system.
+Generate a ${language === 'urdu' ? 'Urdu' : 'English'} language exam paper STRICTLY based on the following content.
 
 ${bookTitle ? `Book: ${bookTitle}` : ''}
 Subject: ${subject || 'General'}
 Class: ${classLevel || '9'}
 Total Marks: ${totalMarks}
 ${timeDuration ? `Duration: ${timeDuration}` : ''}
+${schoolName ? `School: ${schoolName}` : ''}
 
 Paper Structure:
 ${sectionPrompts}
 
-Source Content:
+${customInstructions ? `TEACHER'S CUSTOM INSTRUCTIONS FOR THIS PAPER:
+${customInstructions}
+` : ''}
+Source Content (YOU MUST USE ONLY THIS CONTENT):
 ${contentText}
 
 IMPORTANT RULES:
-1. Generate questions ONLY from the provided content if available.
-2. For each question, include the page reference if content has page numbers.
-3. For MCQs, provide exactly 4 options and mark the correct answer.
-4. Ensure no duplicate questions.
-5. Maintain appropriate difficulty levels.
-6. If Urdu is requested, write questions in Urdu but keep scientific/mathematical terms in English.
+1. Generate questions STRICTLY AND ONLY from the provided source content above. Do NOT use any outside knowledge.
+2. Every question MUST be answerable from the source content provided.
+3. For each question, include the page reference (pageRef) from the source content.
+4. For MCQs, provide exactly 4 options and mark the correct answer.
+5. Ensure no duplicate questions.
+6. Maintain appropriate difficulty levels.
+7. If Urdu is requested, write questions in Urdu but keep scientific/mathematical terms in English.
+8. ${customInstructions ? 'Follow the teacher\'s custom instructions above when designing the paper.' : 'Create a balanced paper covering the provided content.'}
+9. NEVER invent facts, formulas, or information not present in the source content.
 
 Respond in this exact JSON format:
 {

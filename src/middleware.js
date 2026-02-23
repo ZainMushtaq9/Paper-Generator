@@ -6,12 +6,13 @@ export async function middleware(request) {
     const { pathname } = request.nextUrl;
 
     // Public routes - no auth needed
-    const publicRoutes = ['/', '/auth/login', '/auth/register', '/about', '/contact', '/privacy', '/terms'];
+    const publicRoutes = ['/', '/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/about', '/contact', '/privacy', '/terms', '/disclaimer'];
     const isPublicRoute = publicRoutes.some(route => pathname === route);
     const isApiAuth = pathname.startsWith('/api/auth');
+    const isApiSeed = pathname === '/api/seed';
     const isStaticFile = pathname.startsWith('/_next') || pathname.startsWith('/favicon') || pathname.includes('.');
 
-    if (isPublicRoute || isApiAuth || isStaticFile) {
+    if (isPublicRoute || isApiAuth || isApiSeed || isStaticFile) {
         return NextResponse.next();
     }
 
