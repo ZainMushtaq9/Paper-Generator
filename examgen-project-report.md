@@ -39,7 +39,7 @@ The purchaser of ExamGen AI acquires a pristine, unbloated codebase primed for r
 ## 7. What is included in the Sale?
 *   Complete source code repository (Next.js, Prisma, UI assets).
 *   Full transfer of the GitHub repository.
-*   The `examgen.pk` domain name (if applicable/owned) and all branding assets.
+*   The `aiclinix.online` domain name (if applicable/owned) and all branding assets.
 *   Production deployment configurations and environment variable guides.
 
 ---

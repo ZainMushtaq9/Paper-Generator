@@ -18,7 +18,7 @@ export default function DisclaimerPage() {
 
                         <div style={{ lineHeight: 1.8, color: 'var(--text-secondary)' }}>
                             <h2 style={{ color: 'var(--text-primary)', marginTop: 'var(--space-8)', marginBottom: 'var(--space-3)', fontSize: 'var(--text-xl)' }}>General Information</h2>
-                            <p>The information provided by ExamGen AI ("we", "us", or "our") on examgen.pk (the "Site") is for general informational and educational purposes only. All information on the Site is provided in good faith; however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.</p>
+                            <p>The information provided by ExamGen AI ("we", "us", or "our") on aiclinix.online (the "Site") is for general informational and educational purposes only. All information on the Site is provided in good faith; however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.</p>
 
                             <h2 style={{ color: 'var(--text-primary)', marginTop: 'var(--space-8)', marginBottom: 'var(--space-3)', fontSize: 'var(--text-xl)' }}>AI-Generated Content</h2>
                             <p>ExamGen AI uses artificial intelligence to generate exam questions. While we strive for accuracy, AI-generated content may contain errors, inaccuracies, or outdated information. Users are responsible for:</p>

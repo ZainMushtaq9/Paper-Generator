@@ -3,7 +3,7 @@ import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata = {
-  metadataBase: new URL('https://examgen.pk'),
+  metadataBase: new URL('https://aiclinix.online'),
   title: {
     default: 'ExamGen AI — Free AI Exam Paper Generator | Urdu & English',
     template: '%s | ExamGen AI'
@@ -25,11 +25,11 @@ export const metadata = {
   category: 'Education',
   classification: 'Education/Exam Tools',
   formatDetection: { email: false, address: false, telephone: false },
-  alternates: { canonical: 'https://examgen.pk' },
+  alternates: { canonical: 'https://aiclinix.online' },
   openGraph: {
     title: 'ExamGen AI — Free AI Exam Paper Generator',
     description: 'Create professional bilingual exam papers from any textbooks or notes. AI-powered with anti-hallucination & page references. Free forever.',
-    url: 'https://examgen.pk',
+    url: 'https://aiclinix.online',
     siteName: 'ExamGen AI',
     locale: 'en_PK',
     type: 'website',
@@ -68,7 +68,7 @@ export default function RootLayout({ children }) {
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
               name: 'ExamGen AI',
-              url: 'https://examgen.pk',
+              url: 'https://aiclinix.online',
               description: 'Free AI-powered bilingual exam paper generator. Supports Class 1-12 in Urdu and English.',
               applicationCategory: 'EducationalApplication',
               operatingSystem: 'Web Browser',

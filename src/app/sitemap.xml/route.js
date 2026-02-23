@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET() {
-    const baseUrl = 'https://examgen.pk';
+    const baseUrl = 'https://aiclinix.online';
 
     const staticPages = [
         { url: '/', priority: '1.0', changefreq: 'weekly' },

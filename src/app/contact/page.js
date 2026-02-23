@@ -63,7 +63,7 @@ export default function ContactPage() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                             {[
                                 { icon: '📧', label: 'Email', value: 'mushtaqzain180@gmail.com', href: 'mailto:mushtaqzain180@gmail.com' },
-                                { icon: '🌐', label: 'Website', value: 'examgen.pk', href: '#' },
+                                { icon: '🌐', label: 'Website', value: 'aiclinix.online', href: 'https://aiclinix.online' },
                             ].map((item, i) => (
                                 <div key={i} className="glass-card" style={{ padding: 'var(--space-6)', display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
                                     <div style={{ fontSize: '2rem' }}>{item.icon}</div>
