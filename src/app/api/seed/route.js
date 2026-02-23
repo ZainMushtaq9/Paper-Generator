@@ -73,11 +73,6 @@ export async function GET() {
             success: true,
             message: 'Database seeded successfully!',
             admin: superAdmin.email,
-            credentials: {
-                superAdmin: 'zainmushtaq5439@gmail.com / admin123',
-                institutionAdmin: 'admin@school.pk / admin123',
-                teacher: 'teacher@school.pk / admin123',
-            }
         });
 
     } catch (error) {

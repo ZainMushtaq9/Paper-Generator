@@ -28,6 +28,7 @@ function GenerateContent() {
         classLevel: '9',
         subject: '',
         timeDuration: '3 Hours',
+        difficulty: 'Standard',
         instructions: 'Attempt all questions. Marks are indicated against each question.',
         customInstructions: '',
         pageRange: { from: 1, to: 999 },
@@ -260,6 +261,16 @@ function GenerateContent() {
                                             <option value="Test">Test</option>
                                             <option value="Assessment Test">Assessment Test</option>
                                             <option value="Quiz">Quiz</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Difficulty / Mode (Optional)</label>
+                                        <select className="form-select" value={config.difficulty}
+                                            onChange={(e) => setConfig({ ...config, difficulty: e.target.value })}>
+                                            <option value="Standard">Standard / Normal</option>
+                                            <option value="Easy">Easy Mode (Direct questions)</option>
+                                            <option value="Tough">Tough (Advanced analytical)</option>
+                                            <option value="Conceptual">Conceptual Based</option>
                                         </select>
                                     </div>
                                 </div>
