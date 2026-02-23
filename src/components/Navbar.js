@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Navbar() {
+    const { data: session, status } = useSession();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [theme, setTheme] = useState('dark');
@@ -29,6 +31,18 @@ export default function Navbar() {
         document.cookie = `theme=${newTheme};path=/;max-age=${365 * 24 * 60 * 60}`;
     };
 
+    const getDashboardUrl = () => {
+        if (!session?.user?.role) return '/dashboard';
+        const roleMap = {
+            'SUPER_ADMIN': '/dashboard/super-admin',
+            'INSTITUTION_ADMIN': '/dashboard/institution',
+            'TEACHER': '/dashboard/teacher',
+        };
+        return roleMap[session.user.role] || '/dashboard';
+    };
+
+    const isLoggedIn = status === 'authenticated' && session?.user;
+
     return (
         <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
             <div className="container">
@@ -49,12 +63,30 @@ export default function Navbar() {
                         <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
                             {theme === 'dark' ? '☀️' : '🌙'}
                         </button>
-                        <Link href="/auth/login" className="btn btn-secondary btn-sm">
-                            Login
-                        </Link>
-                        <Link href="/auth/register" className="btn btn-primary btn-sm">
-                            Get Started
-                        </Link>
+
+                        {isLoggedIn ? (
+                            <>
+                                <Link href={getDashboardUrl()} className="btn btn-secondary btn-sm">
+                                    📊 Dashboard
+                                </Link>
+                                <button
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() => signOut({ callbackUrl: '/' })}
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link href="/auth/login" className="btn btn-secondary btn-sm">
+                                    Login
+                                </Link>
+                                <Link href="/auth/register" className="btn btn-primary btn-sm">
+                                    Get Started
+                                </Link>
+                            </>
+                        )}
+
                         <button
                             className="mobile-menu-btn"
                             onClick={() => setMobileOpen(!mobileOpen)}
