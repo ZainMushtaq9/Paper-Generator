@@ -19,7 +19,7 @@ export const metadata = {
     'school exam paper generator', 'board exam questions', 'AI education Pakistan',
     'matric exam paper', 'inter exam paper', 'FSC exam paper generator',
   ],
-  authors: [{ name: 'Zain Mushtaq', url: 'https://github.com/ZainMushtaq9' }],
+  authors: [{ name: 'ExamGen AI' }],
   creator: 'Zain Mushtaq',
   publisher: 'ExamGen AI',
   category: 'Education',
@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
               applicationCategory: 'EducationalApplication',
               operatingSystem: 'Web Browser',
               offers: { '@type': 'Offer', price: '0', priceCurrency: 'PKR' },
-              author: { '@type': 'Person', name: 'Zain Mushtaq', url: 'https://github.com/ZainMushtaq9' },
+              author: { '@type': 'Organization', name: 'ExamGen AI' },
               aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', ratingCount: '250' },
             }),
           }}
