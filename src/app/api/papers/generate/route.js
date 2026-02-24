@@ -43,8 +43,9 @@ export async function POST(request) {
             paperPurpose,
             instructions,
             customInstructions,
-            sections, // [{ type: 'mcq', count: 10, marks: 1, attemptAll: true }, ...]
-            pageRange, // { from: 1, to: 50 }
+            difficulty = 'Standard',
+            sections,
+            pageRange,
             chapterFilter,
             topicFilter,
         } = body;
@@ -136,6 +137,7 @@ IMPORTANT RULES:
 7. If Urdu is requested, write questions in Urdu but keep scientific/mathematical terms in English.
 8. ${customInstructions ? 'Follow the teacher\'s custom instructions above when designing the paper.' : 'Create a balanced paper covering the provided content.'}
 9. NEVER invent facts, formulas, or information not present in the source content.
+10. DIFFICULTY MODE: "${difficulty}". ${difficulty === 'Easy' ? 'Generate simple, direct, recall-based questions. Avoid analytical or application questions.' : difficulty === 'Tough' ? 'Generate advanced analytical and higher-order thinking questions. Include application and evaluation level questions.' : difficulty === 'Conceptual' ? 'Focus on conceptual understanding questions that test deep comprehension rather than rote memorization.' : 'Generate a balanced mix of easy, medium, and hard questions.'}
 
 Respond in this exact JSON format:
 {

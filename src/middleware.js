@@ -9,7 +9,7 @@ export async function middleware(request) {
     const publicRoutes = ['/', '/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/about', '/contact', '/privacy', '/terms', '/disclaimer'];
     const isPublicRoute = publicRoutes.some(route => pathname === route);
     const isApiAuth = pathname.startsWith('/api/auth');
-    const isApiSeed = pathname === '/api/seed';
+    const isApiSeed = pathname === '/api/seed' || pathname === '/api/seed-books';
     const isStaticFile = pathname.startsWith('/_next') || pathname.startsWith('/favicon') || pathname.includes('.');
 
     if (isPublicRoute || isApiAuth || isApiSeed || isStaticFile) {
