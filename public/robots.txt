@@ -1,5 +1,5 @@
-# ExamGen AI - AI-Powered Bilingual Exam Paper Generator
-# https://examgen.pk
+# AiClinix - AI-Powered Exam Paper Generator for Pakistan Schools
+# https://aiclinix.online
 
 User-agent: *
 Allow: /
@@ -58,4 +58,4 @@ Allow: /
 User-agent: CopilotBot
 Allow: /
 
-Sitemap: https://examgen.pk/sitemap.xml
+Sitemap: https://aiclinix.online/sitemap.xml
