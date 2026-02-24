@@ -53,7 +53,7 @@ function LoginForm() {
             )}
             <div className="form-group" style={{ marginBottom: 'var(--space-4)' }}>
                 <label className="form-label">Email Address</label>
-                <input type="email" className="form-input" placeholder="you@school.pk"
+                <input type="email" className="form-input" placeholder="you@example.com"
                     value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
             </div>
             <div className="form-group" style={{ marginBottom: 'var(--space-6)' }}>

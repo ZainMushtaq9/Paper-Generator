@@ -41,7 +41,7 @@ export default function ContactPage() {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Email Address</label>
-                                                <input type="email" className="form-input" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="you@school.pk" />
+                                                <input type="email" className="form-input" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" />
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Subject</label>

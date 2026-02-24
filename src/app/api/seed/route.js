@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 // This route auto-seeds the database if no Super Admin exists.
-// It runs safely — if users already exist, it does nothing.
+// Credentials are read from environment variables for security.
 export async function GET() {
     try {
         // Check if Super Admin already exists
@@ -18,14 +18,17 @@ export async function GET() {
             });
         }
 
-        // Seed the database
-        const hashedPassword = await bcrypt.hash('admin123', 12);
+        // Read credentials from env or use secure defaults
+        const adminEmail = process.env.ADMIN_EMAIL || 'superadmin@aiclinix.online';
+        const adminPassword = process.env.ADMIN_PASSWORD || 'AiClinix@2026!';
+
+        const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
         // Create Super Admin
         const superAdmin = await prisma.user.create({
             data: {
                 name: 'Super Admin',
-                email: 'zainmushtaq5439@gmail.com',
+                email: adminEmail,
                 password: hashedPassword,
                 role: 'SUPER_ADMIN',
             },
@@ -36,27 +39,29 @@ export async function GET() {
             data: {
                 name: 'Demo School',
                 approved: true,
-                email: 'demo@school.pk',
+                email: 'info@aiclinix.online',
             },
         });
 
         // Create Institution Admin
+        const instPassword = process.env.INST_ADMIN_PASSWORD || 'InstAdmin@2026!';
         await prisma.user.create({
             data: {
                 name: 'Institution Admin',
-                email: 'admin@school.pk',
-                password: hashedPassword,
+                email: process.env.INST_ADMIN_EMAIL || 'admin@aiclinix.online',
+                password: await bcrypt.hash(instPassword, 12),
                 role: 'INSTITUTION_ADMIN',
                 institutionId: institution.id,
             },
         });
 
         // Create Teacher
+        const teacherPassword = process.env.TEACHER_PASSWORD || 'Teacher@2026!';
         await prisma.user.create({
             data: {
                 name: 'Demo Teacher',
-                email: 'teacher@school.pk',
-                password: hashedPassword,
+                email: process.env.TEACHER_EMAIL || 'teacher@aiclinix.online',
+                password: await bcrypt.hash(teacherPassword, 12),
                 role: 'TEACHER',
                 institutionId: institution.id,
             },

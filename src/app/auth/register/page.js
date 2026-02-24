@@ -162,7 +162,7 @@ export default function RegisterPage() {
                                         type="email"
                                         name="email"
                                         className="form-input"
-                                        placeholder="admin@yourschool.pk"
+                                        placeholder="admin@yourschool.com"
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
