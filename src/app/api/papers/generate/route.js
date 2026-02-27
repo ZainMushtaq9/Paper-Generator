@@ -61,9 +61,13 @@ export async function POST(request) {
         // Fetch book content if bookId provided
         let bookContent = [];
         let bookTitle = bookName || ''; // Use custom bookName if provided
+        let isOfficial = false;
         if (bookId) {
             const book = await prisma.book.findUnique({ where: { id: bookId } });
-            if (book && !bookTitle) bookTitle = book.title;
+            if (book) {
+                if (!bookTitle) bookTitle = book.title;
+                isOfficial = book.sourceType === 'official';
+            }
 
             const contentWhere = { bookId };
             if (pageRange) {
@@ -86,12 +90,12 @@ export async function POST(request) {
             });
         }
 
-        // Build AI prompt - ONLY use book content, never outside knowledge
+        // Build AI prompt - ONLY use book content, or syllabus knowledge if official book without OCR text
         const contentText = bookContent.length > 0
             ? bookContent.map(c => `[Page ${c.pageNumber}] ${c.textContent}`).join('\n\n')
-            : 'ERROR: No content found for the selected pages/filters. Please widen your page range or remove filters.';
+            : isOfficial ? 'Book text not loaded in DB. Use your extensive general knowledge of this official Pakistani textbook syllabus to generate appropriate questions.' : 'ERROR: No content found for the selected pages/filters.';
 
-        if (bookContent.length === 0) {
+        if (bookContent.length === 0 && !isOfficial) {
             return NextResponse.json({ error: 'No content found for the selected book/pages. Make sure the book has been processed with OCR. Try widening the page range or removing filters.' }, { status: 400 });
         }
 
@@ -136,7 +140,7 @@ IMPORTANT RULES:
 6. Maintain appropriate difficulty levels.
 7. If Urdu is requested, write questions in Urdu but keep scientific/mathematical terms in English.
 8. ${customInstructions ? 'Follow the teacher\'s custom instructions above when designing the paper.' : 'Create a balanced paper covering the provided content.'}
-9. NEVER invent facts, formulas, or information not present in the source content.
+9. ${bookContent.length > 0 ? 'NEVER invent facts, formulas, or information not present in the source content.' : `Since no specific text was provided, rely exclusively on your accurate knowledge of the ${subject} syllabus for Class ${classLevel} (Punjab Textbook Board or general Pakistani curriculum).`}
 10. DIFFICULTY MODE: "${difficulty}". ${difficulty === 'Easy' ? 'Generate simple, direct, recall-based questions. Avoid analytical or application questions.' : difficulty === 'Tough' ? 'Generate advanced analytical and higher-order thinking questions. Include application and evaluation level questions.' : difficulty === 'Conceptual' ? 'Focus on conceptual understanding questions that test deep comprehension rather than rote memorization.' : 'Generate a balanced mix of easy, medium, and hard questions.'}
 
 Respond in this exact JSON format:
@@ -264,6 +268,14 @@ Generate the complete exam paper now.`;
         return NextResponse.json({ paper: completePaper, aiResponse });
     } catch (error) {
         console.error('Paper generation error:', error);
-        return NextResponse.json({ error: 'Paper generation failed' }, { status: 500 });
+
+        let errorMessage = 'Paper generation failed. Please try again.';
+        if (error.error?.message) {
+            errorMessage = `AI Error: ${error.error.message}`;
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

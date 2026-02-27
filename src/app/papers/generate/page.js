@@ -18,6 +18,10 @@ function GenerateContent() {
     const [progressMsg, setProgressMsg] = useState('');
     const [result, setResult] = useState(null);
 
+    // Cascading selection state
+    const [selectedClassFilter, setSelectedClassFilter] = useState('');
+    const [selectedSubjectFilter, setSelectedSubjectFilter] = useState('');
+
     const [config, setConfig] = useState({
         bookId: '',
         title: '',
@@ -54,13 +58,28 @@ function GenerateContent() {
 
     const fetchBooks = async () => {
         try {
-            const res = await fetch('/api/books?limit=100');
+            const res = await fetch('/api/books?limit=1000'); // make sure all are fetched
             if (res.ok) {
                 const data = await res.json();
                 setBooks(data.books || []);
             }
         } catch (e) { console.error(e); }
     };
+
+    // Derived states for cascading dropdowns
+    const availableClasses = [...new Set(books.map(b => b.classLevel))].filter(Boolean).sort((a, b) => {
+        if (a.startsWith('Pre')) return -1;
+        if (b.startsWith('Pre')) return 1;
+        return parseInt(a) - parseInt(b);
+    });
+
+    const availableSubjects = selectedClassFilter
+        ? [...new Set(books.filter(b => b.classLevel === selectedClassFilter).map(b => b.subject))].filter(Boolean).sort()
+        : [];
+
+    const filteredBooks = selectedSubjectFilter
+        ? books.filter(b => b.classLevel === selectedClassFilter && b.subject === selectedSubjectFilter)
+        : [];
 
     const totalMarks = config.sections.reduce((sum, s) => sum + (s.attemptCount * s.marks), 0);
 
@@ -275,21 +294,73 @@ function GenerateContent() {
                                     </div>
                                 </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">📚 Select Book / Notes / PDF *</label>
-                                    <select className="form-select" value={config.bookId}
-                                        onChange={(e) => setConfig({ ...config, bookId: e.target.value })}
-                                        style={{ borderColor: !config.bookId ? 'var(--warning-400)' : undefined }}>
-                                        <option value="">-- Select a book (Required) --</option>
-                                        {books.map(b => (
-                                            <option key={b.id} value={b.id}>
-                                                {b.title} (Class {b.classLevel}, {b.medium})
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {!config.bookId && (
-                                        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--warning-400)', marginTop: 'var(--space-1)' }}>
-                                            ⚠️ A book must be selected. Questions are generated ONLY from uploaded content.
+                                <div className="glass-card" style={{ padding: 'var(--space-4)', background: 'rgba(99,102,241,0.02)', border: '1px solid rgba(99,102,241,0.1)', marginBottom: 'var(--space-6)' }}>
+                                    <h4 style={{ marginBottom: 'var(--space-4)', color: 'var(--primary-400)' }}>📚 Select Source Content</h4>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr)', gap: 'var(--space-4)' }}>
+                                        {/* 1. Class Selection */}
+                                        <div className="form-group" style={{ marginBottom: 0 }}>
+                                            <label className="form-label" style={{ fontSize: 'var(--text-xs)' }}>1. Filter by Class</label>
+                                            <select className="form-select" value={selectedClassFilter}
+                                                onChange={(e) => {
+                                                    setSelectedClassFilter(e.target.value);
+                                                    setSelectedSubjectFilter('');
+                                                    setConfig({ ...config, bookId: '' });
+                                                }}>
+                                                <option value="">-- All Classes --</option>
+                                                {availableClasses.map(cls => (
+                                                    <option key={cls} value={cls}>Class {cls}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* 2. Subject Selection */}
+                                        <div className="form-group" style={{ marginBottom: 0 }}>
+                                            <label className="form-label" style={{ fontSize: 'var(--text-xs)' }}>2. Filter by Subject</label>
+                                            <select className="form-select" value={selectedSubjectFilter}
+                                                disabled={!selectedClassFilter}
+                                                onChange={(e) => {
+                                                    setSelectedSubjectFilter(e.target.value);
+                                                    setConfig({ ...config, bookId: '' });
+                                                }}>
+                                                <option value="">-- Select Subject --</option>
+                                                {availableSubjects.map(sub => (
+                                                    <option key={sub} value={sub}>{sub}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* 3. Book Selection */}
+                                        <div className="form-group" style={{ marginBottom: 0 }}>
+                                            <label className="form-label" style={{ fontSize: 'var(--text-xs)' }}>3. Select Specific Book *</label>
+                                            <select className="form-select" value={config.bookId}
+                                                disabled={!selectedSubjectFilter}
+                                                onChange={(e) => {
+                                                    const selected = books.find(b => b.id === e.target.value);
+                                                    setConfig({
+                                                        ...config,
+                                                        bookId: e.target.value,
+                                                        title: selected ? `${selected.subject} - Class ${selected.classLevel} Exam` : '',
+                                                        classLevel: selected?.classLevel || '',
+                                                        subject: selected?.subject || '',
+                                                        bookName: selected?.title || '',
+                                                        language: selected?.language || 'english',
+                                                    });
+                                                }}
+                                                style={{ borderColor: !config.bookId && selectedSubjectFilter ? 'var(--warning-400)' : undefined }}>
+                                                <option value="">-- Choose a book --</option>
+                                                {filteredBooks.map(b => (
+                                                    <option key={b.id} value={b.id}>
+                                                        {b.title} ({b.medium === 'urdu' ? 'Urdu Md.' : 'Eng Md.'})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {!config.bookId && selectedSubjectFilter && (
+                                        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--warning-400)', marginTop: 'var(--space-3)', textAlign: 'right' }}>
+                                            ⚠️ Please click the third dropdown to select the exact book.
                                         </p>
                                     )}
                                 </div>
