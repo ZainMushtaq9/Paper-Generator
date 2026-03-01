@@ -35,18 +35,16 @@ export default function ParticleBackground() {
         const CONNECTION_DISTANCE = isMobile ? 100 : 150;
         const MOUSE_RADIUS = 200;
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.8;
-                this.speedY = (Math.random() - 0.5) * 0.8;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                this.hue = Math.random() * 60 + 220; // Blue-purple range
-            }
+        function Particle() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2.5 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.8;
+            this.speedY = (Math.random() - 0.5) * 0.8;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.hue = Math.random() * 60 + 220; // Blue-purple range
 
-            update() {
+            this.update = function () {
                 this.x += this.speedX;
                 this.y += this.speedY;
 
@@ -67,14 +65,14 @@ export default function ParticleBackground() {
                         this.y -= (dy / dist) * force * 0.5;
                     }
                 }
-            }
+            };
 
-            draw() {
+            this.draw = function () {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = `hsla(${this.hue}, 70%, 60%, ${this.opacity})`;
                 ctx.fill();
-            }
+            };
         }
 
         // Initialize particles
