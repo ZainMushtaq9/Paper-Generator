@@ -12,10 +12,10 @@ if (isRender || isPostgres) {
     console.log('🌍 Production environment detected: Switching Prisma to PostgreSQL');
     schema = schema.replace(/provider\s*=\s*"sqlite"/, 'provider = "postgresql"');
 
-    // Render build phase sometimes lacks env vars; inject dummy URL for Prisma Generation to pass
+    // Render build phase lacks env vars; inject dummy URL for Prisma Generation to pass
     if (!process.env.DATABASE_URL) {
         console.log('⚠️ DATABASE_URL is missing during build context. Injecting dummy URL for Prisma Validation.');
-        schema = schema.replace(/url\s*=\s*env\("DATABASE_URL"\)/, 'url = "postgresql://dummy:dummy@localhost:5432/dummy"');
+        schema = schema.replace(/url\s+=\s+env\("DATABASE_URL"\)/, 'url = "postgresql://dummy:dummy@localhost:5432/dummy"');
     }
 
 } else {
