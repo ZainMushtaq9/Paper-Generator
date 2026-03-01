@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "node scripts/prepare-db.js && prisma generate",
     "db:push": "cross-env DATABASE_URL=file:./dev.db prisma db push",
     "db:seed": "cross-env DATABASE_URL=file:./dev.db node prisma/seed.js",
     "db:studio": "cross-env DATABASE_URL=file:./dev.db prisma studio"
